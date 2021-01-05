@@ -1,0 +1,183 @@
+<!--index.html-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Flask with matplotlib</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    function drawGraph(obj,imgid) {
+        var idx = obj.selectedIndex;
+        var value = obj.options[idx].value;
+        var plotdata = document.getElementById(imgid);
+
+        var timeS = document.getElementById('timeSelector');
+        var idxT = timeS.selectedIndex;
+        var time = timeS.options[idxT].value;
+
+        $.get("/plot/" + value + "_" + time, function(data) {
+            plotdata.src = "data:image/png:base64," + data;
+        });
+    };
+    function updateValue() {
+        var mean = document.getElementById('mean');
+        var sd = document.getElementById('sd');
+
+        var req = new XMLHttpRequest();
+        req.open('GET', '/update_data', true);
+        req.onreadystatechange = function(e) {
+            if(req.readyState !== 4) {
+                return;
+            }
+            if ([200, 304].indexOf(req.status) === -1) {
+                console.warn('Error! XHR failed.');
+            }
+            else {
+                data = JSON.parse(e.target.responseText);   
+                setStatisticValue(data);      
+                console.warn(data);
+            }
+        };
+        req.send();
+        
+    };
+
+    function updateRealtimeValue() {
+        console.warn('Realtime updated');
+        var vel = document.getElementById('vel');
+        var dire = document.getElementById('dire');
+
+        var req = new XMLHttpRequest();
+        req.open('GET', '/update_realtimedata', true);
+        req.onreadystatechange = function(e) {
+            if(req.readyState !== 4) {
+                return;
+            }
+            if ([200, 304].indexOf(req.status) === -1) {
+                console.warn('Error! XHR failed.');
+            }
+            else {
+                data = JSON.parse(e.target.responseText);   
+                setRealtimeValue(data);      
+                console.warn(data);
+            }
+        };
+        req.send();
+        
+    };
+
+    function realTimeMonitor(){
+        setInterval(function(){updateRealtimeValue();}, 10000);
+    };
+
+    $(document).ready(function() {
+        //initialize components
+        refreshFigure();
+    });
+    function refreshFigure() {
+        //initialize components
+        var target1 = document.getElementById('selector1');
+        drawGraph(target1,'plotimg1');
+        var target2 = document.getElementById('selector2');
+        drawGraph(target2,'plotimg2');
+        var target3 = document.getElementById('selector3');
+        drawGraph(target3,'plotimg3');
+        updateValue();
+        updateRealtimeValue();
+        realTimeMonitor();
+    };
+
+    function setStatisticValue(data) {
+        var mean = document.getElementById('mean');
+        var sd = document.getElementById('sd');
+        mean.innerHTML = data.mean;
+        sd.innerHTML = data.sd;
+    };
+
+    function setRealtimeValue(data) {
+        var vel = document.getElementById('vel');
+        var dire = document.getElementById('dire');
+        vel.innerHTML = data.velocity;
+        dire.innerHTML = data.direction;
+    };
+    </script>
+</head>
+
+<body>
+    <h1>Real time wind data</h1>
+    <table>
+        <tbody>      
+            <tr>
+                <td>Velocity</td>
+                <td id = vel></td>
+                <td>m/s</td>
+            </tr>
+            <tr>
+                <td>Direction</td>
+                <td id = dire></td>
+                <td>(deg)</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <h1>Select a time period</h1>
+    <select id=timeSelector onchange="refreshFigure()">
+        <option value="all" selected>All the time</option>
+        <option value="hour">Last hour</option>
+        <option value="day">Last 24 hours</option>
+        <option value="week">Last 7 days</option>
+    </select>
+
+    <table>
+        <tbody>      
+            <tr>
+                <td>Mean</td>
+                <td id = mean></td>
+                <td>m/s</td>
+            </tr>
+            <tr>
+                <td>Standard Deviation</td>
+                <td id = sd></td>
+                <td>m/s</td>
+            </tr>
+        </tbody>
+    </table> 
+
+
+    <h1>Time history</h1>
+    <div>
+        <p>select a variable</p>
+        <select id=selector1 onchange="drawGraph(this, 'plotimg1')">
+            <option value="TH_Wind Direction" selected>Wind Direction</option>
+            <option value="TH_Wind speed 1">Wind speed 1</option>
+            <option value="TH_Wind speed 2">Wind speed 2</option>
+        </select>
+    </div>
+    <br/>
+    <img id=plotimg1></img>
+
+    <h1>Velocity distribution</h1>
+    <div>
+        <p>select a variable</p>
+        <select id=selector2 onchange="drawGraph(this, 'plotimg2')">
+            <option value="DS_Wind speed 1" selected>Wind speed 1</option>
+            <option value="DS_Wind speed 2">Wind speed 2</option>
+        </select>
+    </div>
+    <br/>
+    <img id=plotimg2></img>
+
+    <h1>Wind direction rose</h1>
+    <div>
+        <p>select a variable</p>
+        <select id=selector3 onchange="drawGraph(this, 'plotimg3')">
+            <option value="RS_Wind Direction">Wind Direction</option>
+        </select>
+    </div>
+    <br/>
+    <img id=plotimg3></img>
+
+</body>
+
+</html>
