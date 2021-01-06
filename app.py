@@ -24,29 +24,31 @@ end = f.shape[0]-1
 
 @app.route("/plot/<func>")
 def plot_graph(func='Wind Direction'):
-
-    start = 0
-    end = -1 
+    global f
+    global mean
+    global sd
+    global start
+    global end
     dataDt = 60
     SECPERHOUR = 3600
     SECPERDAT = 24*60*60
     SECPERWEEK = SECPERDAT*7
-
+    f = pandas.read_excel('./20170420から20170426.xlsx')
     options = func.split("_")
     func = options[0] + "_" + options[1]
     if options[2] == "all":
         print("plot all the value")
     if options[2] == "hour":
         print("plot 1 hour value")
-        start = int(-SECPERHOUR/dataDt)
+        start = int(f.shape[0]-SECPERHOUR/dataDt)
     if options[2] == "day":
         print("plot 1 day value")
-        start = int(-SECPERDAT/dataDt)
+        start = int(f.shape[0]-SECPERDAT/dataDt)
     if options[2] == "week":
         print("plot 1 week value")
-        start = int(-SECPERWEEK/dataDt)
+        start = int(f.shape[0]-SECPERWEEK/dataDt)
 
-    f = pandas.read_excel('./20170420から20170426.xlsx')
+    
     fig = Figure(figsize=[12,6])
     print("Run ", func)
     if func == 'TH_Wind Direction':
@@ -62,8 +64,8 @@ def plot_graph(func='Wind Direction'):
     if func == "RS_Wind Direction":
         drawFrequencyRose(fig,f[f.columns[1]][start:end], subname=options[1])
     
-    mean = np.mean(f[f.columns[2]][start:end])
-    sd = (np.var(f[f.columns[2]][start:end]))**(1/2)
+    mean = np.around(np.mean(f[f.columns[2]][start:end]),decimals=2)
+    sd = np.around((np.var(f[f.columns[2]][start:end]))**(1/2), decimals=2)
     print(mean)
     canvas = FigureCanvasAgg(fig)
     png_output = BytesIO()
@@ -73,9 +75,14 @@ def plot_graph(func='Wind Direction'):
 
 @app.route("/update_data")
 def update_data():
+    global f
+    global mean
+    global sd
+    f = pandas.read_excel('./20170420から20170426.xlsx')
     print("Update!!!!!!!!!!!")
     mean = np.around(np.mean(f[f.columns[2]][start:end]), decimals=2)
     sd = np.around((np.var(f[f.columns[2]][start:end]))**(1/2),  decimals=2)
+    print("start: ", start)
     print("mean:", mean)
     print(sd)
     return jsonify({"status": 'success', "mean": str(mean), "sd":str(sd)})
@@ -87,7 +94,7 @@ def update_realtimedata():
     last = f.shape[0]-1
     vel = np.around(f[f.columns[2]][last], decimals=2)
     dire = np.around(f[f.columns[1]][last],  decimals=2)
-    print("mean:", vel)
+    print("vel:", vel)
     print(dire)
     print("shape",f.shape)
     return jsonify({"status": 'success', "velocity": str(vel), "direction":str(dire)})
