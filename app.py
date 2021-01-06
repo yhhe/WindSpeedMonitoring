@@ -11,6 +11,10 @@ import numpy as np
 import pandas
 import math
 from windVisual import drawTimeSeries,  drawFrequencyDistribution, drawFrequencyRose
+import logging
+import threading
+import time
+import queue
 
 
 app = Flask(__name__)
@@ -73,5 +77,27 @@ def update(func='Wind Direction'):
 def index():
     return render_template("index.html", img_data=None)
 
+#logging.basicConfig(level=logging.DEBUG, format='%(threadName)s: %(message)s')
+def appworker():
+    # get thread name
+    logging.debug('start')
+    app.run(debug=True, port=9999)
+    logging.debug('end')
+
+def dataworker():
+    # get thread name
+    logging.debug('start')
+    time.sleep(5)
+    logging.debug('end')
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=9999)
+    ##queue = queue.Queue()
+    ##t_app = threading.Thread(target=appworker, args=(queue,))
+    ##t_data = threading.Thread(target=dataworker, args=(queue,))
+    #t_app = threading.Thread(target=appworker)
+    #t_data = threading.Thread(target=dataworker)
+    #t_data.start()
+    #t_app.start()
+    
