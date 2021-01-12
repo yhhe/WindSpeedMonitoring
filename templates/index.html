@@ -6,6 +6,10 @@
     <title>Flask with matplotlib</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
     function drawGraph(obj,imgid) {
         var idx = obj.selectedIndex;
         var value = obj.options[idx].value;
@@ -101,9 +105,96 @@
         dire.innerHTML = data.direction;
     };
     </script>
+
+    <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* Style the header */
+    header {
+        background-color: #666;
+        padding: 30px;
+        text-align: center;
+        font-size: 35px;
+        color: white;
+    }
+
+    /* Create two columns/boxes that floats next to each other */
+    nav {
+        float: left;
+        width: 20%;
+        height: 2300px; /* only for demonstration, should be removed */
+        background: #ccc;
+        padding: 20px;
+    }
+
+    /* Style the list inside the menu */
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    article {
+        float: left;
+        padding: 20px;
+        width: 80%;
+        background-color: #f1f1f1;
+        height: 2300px; /* only for demonstration, should be removed */
+    }
+
+    /* Clear floats after the columns */
+    section::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    /* Style the footer */
+    footer {
+        background-color: #777;
+        padding: 10px;
+        text-align: center;
+        color: white;
+    }
+
+    /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+    @media (max-width: 600px) {
+        nav, article {
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+
+    </style>
 </head>
 
-<body>
+<header>
+  <h2>Wind Speed Monitor</h2>
+</header>
+
+<section>
+  <nav>
+    <ul>
+      <li><a href="#tHis">Time history</a></li>
+      <li><a href="#hist">Wind velocity distribution</a></li>
+      <li><a href="#rose">Wind direction rose</a></li>
+    </ul>
+  </nav>
+
+
+
+<article>
     <h1>Real time wind data</h1>
     <table>
         <tbody>      
@@ -144,7 +235,7 @@
         </tbody>
     </table> 
 
-
+    <div id='tHis'><a name='tHis'></a></div>
     <h1>Time history</h1>
     <div>
         <p>select a variable</p>
@@ -156,7 +247,10 @@
     </div>
     <br/>
     <img id=plotimg1></img>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">To Top</button>
 
+
+    <div id='hist'><a name='hist'></a></div>
     <h1>Velocity distribution</h1>
     <div>
         <p>select a variable</p>
@@ -167,7 +261,9 @@
     </div>
     <br/>
     <img id=plotimg2></img>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">To Top</button>
 
+    <div id='rose'><a name='rose'></a></div>
     <h1>Wind direction rose</h1>
     <div>
         <p>select a variable</p>
@@ -177,7 +273,17 @@
     </div>
     <br/>
     <img id=plotimg3></img>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">To Top</button>
+</article>
+</section>
 
-</body>
 
+
+<footer>
+    
+    <p>For the lecture <i><b> Design of Environmentally Harmonizing Systems </b></i>   </p>
+    
+</footer>
+
+<body></body>
 </html>
