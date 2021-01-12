@@ -180,14 +180,14 @@
 </head>
 
 <header>
-  <h2>Wind Speed Monitor</h2>
+  <h1>Wind Monitor</h1>
 </header>
 
 <section>
   <nav>
     <ul>
       <li><a href="#tHis">Time history</a></li>
-      <li><a href="#hist">Wind velocity distribution</a></li>
+      <li><a href="#hist">Wind speed distribution</a></li>
       <li><a href="#rose">Wind direction rose</a></li>
     </ul>
   </nav>
@@ -195,9 +195,6 @@
 
 
 <article>
-    <h1>Real time wind data</h1>
-<body>
-    <h1>Wind Monitor</h1>
     <h2>Current wind data</h2>
     <table>
         <tbody>      
@@ -224,7 +221,6 @@
     </select>
 
     <h3>Statistics</h3>
-
     <table>
         <tbody>      
             <tr>
@@ -241,8 +237,6 @@
     </table>
 
     <div id='tHis'><a name='tHis'></a></div>
-    <h1>Time history</h1>
-
     <h3>Time history</h3>
     <div>
         <td>Select a time series: </td>
@@ -258,7 +252,6 @@
 
 
     <div id='hist'><a name='hist'></a></div>
-    <h1>Velocity distribution</h1>
     <h3>Wind speed distribution</h3>
     <div>
         <td>Select a wind type: </td>
@@ -272,15 +265,7 @@
     <button onclick="topFunction()" id="myBtn" title="Go to top">To Top</button>
 
     <div id='rose'><a name='rose'></a></div>
-    <h1>Wind direction rose</h1>
-    <div>
     <h3>Wind direction rose</h3>
-    <!--<div>
-        <p>select a variable</p>
-        <select id=selector3 onchange="drawGraph(this, 'plotimg3')">
-            <option value="RS_Wind Direction">Wind Direction</option>
-        </select>
-    </div>-->
     <div>
         <select id=selector3 onchange="drawGraph(this, 'plotimg3')">
             <option value="RS_Wind Direction">Wind Direction</option>
