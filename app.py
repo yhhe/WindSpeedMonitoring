@@ -52,17 +52,17 @@ def plot_graph(func='Wind Direction'):
     fig = Figure(figsize=[12,6])
     print("Run ", func)
     if func == 'TH_Wind Direction':
-        drawTimeSeries(fig, f[f.columns[0]][start:end],f[f.columns[1]][start:end], subname=options[1])
+        drawTimeSeries(fig, f[f.columns[0]][start:end],f[f.columns[1]][start:end], subname='Wind Direction')
     if func == 'TH_Wind speed 1':
-        drawTimeSeries(fig, f[f.columns[0]][start:end],f[f.columns[2]][start:end], subname=options[1])
+        drawTimeSeries(fig, f[f.columns[0]][start:end],f[f.columns[2]][start:end], subname='Wind Speed')
     if func == 'TH_Wind speed 2':
-        drawTimeSeries(fig, f[f.columns[0]][start:end],f[f.columns[3]][start:end], subname=options[1])
+        drawTimeSeries(fig, f[f.columns[0]][start:end],f[f.columns[3]][start:end], subname='Gust Wind Speed')
     if func == 'DS_Wind speed 1':
-        drawFrequencyDistribution(fig,f[f.columns[2]][start:end], subname=options[1])
+        drawFrequencyDistribution(fig,f[f.columns[2]][start:end], subname='Wind Speed')
     if func == 'DS_Wind speed 2':
-        drawFrequencyDistribution(fig,f[f.columns[3]][start:end], subname=options[1])
+        drawFrequencyDistribution(fig,f[f.columns[3]][start:end], subname='Gust Wind Speed')
     if func == "RS_Wind Direction":
-        drawFrequencyRose(fig,f[f.columns[1]][start:end], subname=options[1])
+        drawFrequencyRose(fig,f[f.columns[1]][start:end], subname='Wind Direction')
     
     mean = np.around(np.mean(f[f.columns[2]][start:end]),decimals=2)
     sd = np.around((np.var(f[f.columns[2]][start:end]))**(1/2), decimals=2)
