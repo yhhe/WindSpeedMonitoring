@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>Flask with matplotlib</title>
+    <title>Wind Monitor</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
     function drawGraph(obj,imgid) {
@@ -104,77 +104,86 @@
 </head>
 
 <body>
-    <h1>Real time wind data</h1>
+    <h1>Wind Monitor</h1>
+    <h2>Current wind data</h2>
     <table>
         <tbody>      
             <tr>
-                <td>Velocity</td>
+                <td><b>Wind Speed</b></td>
                 <td id = vel></td>
                 <td>m/s</td>
             </tr>
             <tr>
-                <td>Direction</td>
+                <td><b>Wind Direction</b></td>
                 <td id = dire></td>
-                <td>(deg)</td>
+                <td>deg</td>
             </tr>
         </tbody>
     </table>
 
-
-    <h1>Select a time period</h1>
+    <h2>Processed wind data</h2>
+    <td>Select a time period: </td>
     <select id=timeSelector onchange="refreshFigure()">
-        <option value="all" selected>All the time</option>
+        <option value="all" selected>ALL</option>
         <option value="hour">Last hour</option>
         <option value="day">Last 24 hours</option>
         <option value="week">Last 7 days</option>
     </select>
 
+    <h3>Statistics</h3>
+
     <table>
         <tbody>      
             <tr>
-                <td>Mean</td>
+                <td><b>Mean</b></td>
                 <td id = mean></td>
                 <td>m/s</td>
             </tr>
             <tr>
-                <td>Standard Deviation</td>
+                <td><b>Standard Deviation</b></td>
                 <td id = sd></td>
                 <td>m/s</td>
             </tr>
         </tbody>
-    </table> 
+    </table>
 
 
-    <h1>Time history</h1>
+    <h3>Time history</h3>
     <div>
-        <p>select a variable</p>
+        <td>Select a time series: </td>
         <select id=selector1 onchange="drawGraph(this, 'plotimg1')">
             <option value="TH_Wind Direction" selected>Wind Direction</option>
-            <option value="TH_Wind speed 1">Wind speed 1</option>
-            <option value="TH_Wind speed 2">Wind speed 2</option>
+            <option value="TH_Wind speed 1">Wind Speed</option>
+            <option value="TH_Wind speed 2">Gust Wind Speed</option>
         </select>
     </div>
     <br/>
     <img id=plotimg1></img>
 
-    <h1>Velocity distribution</h1>
+    <h3>Wind speed distribution</h3>
     <div>
-        <p>select a variable</p>
+        <td>Select a wind type: </td>
         <select id=selector2 onchange="drawGraph(this, 'plotimg2')">
-            <option value="DS_Wind speed 1" selected>Wind speed 1</option>
-            <option value="DS_Wind speed 2">Wind speed 2</option>
+            <option value="DS_Wind speed 1" selected>Wind Speed</option>
+            <option value="DS_Wind speed 2">Gust Wind Speed</option>
         </select>
     </div>
     <br/>
     <img id=plotimg2></img>
 
-    <h1>Wind direction rose</h1>
-    <div>
+    <h3>Wind direction rose</h3>
+    <!--<div>
         <p>select a variable</p>
         <select id=selector3 onchange="drawGraph(this, 'plotimg3')">
             <option value="RS_Wind Direction">Wind Direction</option>
         </select>
-    </div>
+    </div>-->
+    <div>
+        <select id=selector3 onchange="drawGraph(this, 'plotimg3')">
+            <option value="RS_Wind Direction">Wind Direction</option>
+        </select>
+    </div> 
+
     <br/>
     <img id=plotimg3></img>
 

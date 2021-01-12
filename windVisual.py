@@ -60,6 +60,8 @@ def drawTimeSeries(fig, t, data ,subname=''):
     ax.set_title('Time series '+subname)
     ax.set_xlabel('t(h)')
     ax.set_ylabel('Wind Speed(m/s)')
+    if subname == 'Wind Direction':
+        ax.set_ylabel('Wind Direction(deg)')
     ax.legend()
 
 def drawFrequencyDistribution(fig, data,subname='', hisbins=16):
